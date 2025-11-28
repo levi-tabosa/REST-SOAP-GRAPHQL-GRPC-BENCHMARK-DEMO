@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+strawberry-graphql
+sqlalchemy
+asyncpg
+psycopg2-binary

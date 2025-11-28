@@ -1,0 +1,28 @@
+syntax = "proto3";
+package demo;
+
+service UserService {
+  rpc GetUser (UserRequest) returns (UserResponse) {}
+}
+
+message UserRequest {
+  int32 id = 1;
+}
+
+message Song {
+    string title = 1;
+    string artist = 2;
+}
+
+message Playlist {
+    int32 id = 1;
+    string title = 2;
+    repeated Song songs = 3; // TODO: testar sem essa linha
+}
+
+message UserResponse {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+  repeated Playlist playlists = 4; // TODO: testar sem essa linha
+}

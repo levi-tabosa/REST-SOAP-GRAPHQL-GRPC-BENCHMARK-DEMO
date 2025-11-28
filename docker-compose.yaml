@@ -1,0 +1,94 @@
+# docker-compose.yaml
+services:
+  postgres:
+    image: postgres:16
+    container_name: demo_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+    profiles: ["db"]
+
+  rest-service: # Nomes dos serviços precisam ser hostnames validos (sem _ e etc)
+    build: ./rest
+    container_name: rest-api
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/demo
+      SPRING_DATASOURCE_USERNAME: demo
+      SPRING_DATASOURCE_PASSWORD: demo
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - postgres
+    ports:
+      - "8081:8080"
+    profiles: ["rest"]
+
+  soap-service:
+    build: ./soap
+    container_name: soap-api
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/demo
+      SPRING_DATASOURCE_USERNAME: demo
+      SPRING_DATASOURCE_PASSWORD: demo
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - postgres
+    ports:
+      - "8082:8080"
+    profiles: ["soap"]
+
+  graphql-service:
+    build: ./graphql
+    container_name: graphql-api
+    restart: always
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: demo
+      DB_PASS: demo
+      DB_NAME: demo
+    depends_on:
+      - postgres
+    ports:
+      - "8083:8000"
+    profiles: ["graphql"]
+
+  grpc-service:
+    build: ./grpc
+    container_name: grpc-api
+    restart: always
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: demo
+      DB_PASS: demo
+      DB_NAME: demo
+    depends_on:
+      - postgres
+    ports:
+      - "50051:50051"
+    profiles: ["grpc"]
+
+  locust:
+    build: ./locust
+    container_name: locust
+    volumes:
+      - ./locust:/mnt/locust
+    working_dir: /mnt/locust
+    command: >
+      -f load_test.py
+    ports:
+      - "8089:8089"
+    profiles: ["loadtest"]
+
+volumes:
+  pgdata:
+
