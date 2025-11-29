@@ -1,4 +1,5 @@
 grpcio
 grpcio-tools
+grpcio-health-checking
 sqlalchemy
 psycopg2-binary

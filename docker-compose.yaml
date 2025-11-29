@@ -14,8 +14,10 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - pgdata:/var/lib/postgresql/data
     profiles: ["db"]
+    networks:
+      - app-network
 
-  rest-service: # Nomes dos serviços precisam ser hostnames validos (sem _ e etc)
+  rest-service:
     build: ./rest
     container_name: rest-api
     restart: always
@@ -29,6 +31,8 @@ services:
     ports:
       - "8081:8080"
     profiles: ["rest"]
+    networks:
+      - app-network
 
   soap-service:
     build: ./soap
@@ -44,6 +48,8 @@ services:
     ports:
       - "8082:8080"
     profiles: ["soap"]
+    networks:
+      - app-network
 
   graphql-service:
     build: ./graphql
@@ -60,6 +66,8 @@ services:
     ports:
       - "8083:8000"
     profiles: ["graphql"]
+    networks:
+      - app-network
 
   grpc-service:
     build: ./grpc
@@ -76,6 +84,8 @@ services:
     ports:
       - "50051:50051"
     profiles: ["grpc"]
+    networks:
+      - app-network
 
   locust:
     build: ./locust
@@ -88,7 +98,12 @@ services:
     ports:
       - "8089:8089"
     profiles: ["loadtest"]
+    networks:
+      - app-network
 
 volumes:
   pgdata:
 
+networks:
+  app-network:
+    driver: bridge

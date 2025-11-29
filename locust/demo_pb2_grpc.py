@@ -34,17 +34,61 @@ class UserServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetUser = channel.unary_unary(
-                '/demo.UserService/GetUser',
-                request_serializer=demo__pb2.UserRequest.SerializeToString,
-                response_deserializer=demo__pb2.UserResponse.FromString,
+        self.GetAllUsers = channel.unary_unary(
+                '/demo.UserService/GetAllUsers',
+                request_serializer=demo__pb2.Empty.SerializeToString,
+                response_deserializer=demo__pb2.UserList.FromString,
+                _registered_method=True)
+        self.GetAllSongs = channel.unary_unary(
+                '/demo.UserService/GetAllSongs',
+                request_serializer=demo__pb2.Empty.SerializeToString,
+                response_deserializer=demo__pb2.SongList.FromString,
+                _registered_method=True)
+        self.GetUserPlaylists = channel.unary_unary(
+                '/demo.UserService/GetUserPlaylists',
+                request_serializer=demo__pb2.IdRequest.SerializeToString,
+                response_deserializer=demo__pb2.PlaylistList.FromString,
+                _registered_method=True)
+        self.GetPlaylistSongs = channel.unary_unary(
+                '/demo.UserService/GetPlaylistSongs',
+                request_serializer=demo__pb2.IdRequest.SerializeToString,
+                response_deserializer=demo__pb2.SongList.FromString,
+                _registered_method=True)
+        self.GetPlaylistsBySong = channel.unary_unary(
+                '/demo.UserService/GetPlaylistsBySong',
+                request_serializer=demo__pb2.IdRequest.SerializeToString,
+                response_deserializer=demo__pb2.PlaylistList.FromString,
                 _registered_method=True)
 
 
 class UserServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def GetUser(self, request, context):
+    def GetAllUsers(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetAllSongs(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetUserPlaylists(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetPlaylistSongs(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetPlaylistsBySong(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -53,10 +97,30 @@ class UserServiceServicer(object):
 
 def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetUser,
-                    request_deserializer=demo__pb2.UserRequest.FromString,
-                    response_serializer=demo__pb2.UserResponse.SerializeToString,
+            'GetAllUsers': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAllUsers,
+                    request_deserializer=demo__pb2.Empty.FromString,
+                    response_serializer=demo__pb2.UserList.SerializeToString,
+            ),
+            'GetAllSongs': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAllSongs,
+                    request_deserializer=demo__pb2.Empty.FromString,
+                    response_serializer=demo__pb2.SongList.SerializeToString,
+            ),
+            'GetUserPlaylists': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetUserPlaylists,
+                    request_deserializer=demo__pb2.IdRequest.FromString,
+                    response_serializer=demo__pb2.PlaylistList.SerializeToString,
+            ),
+            'GetPlaylistSongs': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetPlaylistSongs,
+                    request_deserializer=demo__pb2.IdRequest.FromString,
+                    response_serializer=demo__pb2.SongList.SerializeToString,
+            ),
+            'GetPlaylistsBySong': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetPlaylistsBySong,
+                    request_deserializer=demo__pb2.IdRequest.FromString,
+                    response_serializer=demo__pb2.PlaylistList.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -70,7 +134,7 @@ class UserService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def GetUser(request,
+    def GetAllUsers(request,
             target,
             options=(),
             channel_credentials=None,
@@ -83,9 +147,117 @@ class UserService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/demo.UserService/GetUser',
-            demo__pb2.UserRequest.SerializeToString,
-            demo__pb2.UserResponse.FromString,
+            '/demo.UserService/GetAllUsers',
+            demo__pb2.Empty.SerializeToString,
+            demo__pb2.UserList.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetAllSongs(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/demo.UserService/GetAllSongs',
+            demo__pb2.Empty.SerializeToString,
+            demo__pb2.SongList.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetUserPlaylists(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/demo.UserService/GetUserPlaylists',
+            demo__pb2.IdRequest.SerializeToString,
+            demo__pb2.PlaylistList.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetPlaylistSongs(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/demo.UserService/GetPlaylistSongs',
+            demo__pb2.IdRequest.SerializeToString,
+            demo__pb2.SongList.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetPlaylistsBySong(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/demo.UserService/GetPlaylistsBySong',
+            demo__pb2.IdRequest.SerializeToString,
+            demo__pb2.PlaylistList.FromString,
             options,
             channel_credentials,
             insecure,

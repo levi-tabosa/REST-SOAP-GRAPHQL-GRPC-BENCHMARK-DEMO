@@ -24,21 +24,29 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ndemo.proto\x12\x04\x64\x65mo\"\x19\n\x0bUserRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"%\n\x04Song\x12\r\n\x05title\x18\x01 \x01(\t\x12\x0e\n\x06\x61rtist\x18\x02 \x01(\t\"@\n\x08Playlist\x12\n\n\x02id\x18\x01 \x01(\x05\x12\r\n\x05title\x18\x02 \x01(\t\x12\x19\n\x05songs\x18\x03 \x03(\x0b\x32\n.demo.Song\"Z\n\x0cUserResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05\x65mail\x18\x03 \x01(\t\x12!\n\tplaylists\x18\x04 \x03(\x0b\x32\x0e.demo.Playlist2A\n\x0bUserService\x12\x32\n\x07GetUser\x12\x11.demo.UserRequest\x1a\x12.demo.UserResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ndemo.proto\x12\x04\x64\x65mo\"\x07\n\x05\x45mpty\"\x17\n\tIdRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"1\n\x04Song\x12\n\n\x02id\x18\x01 \x01(\x05\x12\r\n\x05title\x18\x02 \x01(\t\x12\x0e\n\x06\x61rtist\x18\x03 \x01(\t\"?\n\x08Playlist\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x19\n\x05songs\x18\x03 \x03(\x0b\x32\n.demo.Song\"X\n\x0cUserResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\x12!\n\tplaylists\x18\x04 \x03(\x0b\x32\x0e.demo.Playlist\"%\n\x08SongList\x12\x19\n\x05songs\x18\x01 \x03(\x0b\x32\n.demo.Song\"1\n\x0cPlaylistList\x12!\n\tplaylists\x18\x01 \x03(\x0b\x32\x0e.demo.Playlist\"-\n\x08UserList\x12!\n\x05users\x18\x01 \x03(\x0b\x32\x12.demo.UserResponse2\x98\x02\n\x0bUserService\x12,\n\x0bGetAllUsers\x12\x0b.demo.Empty\x1a\x0e.demo.UserList\"\x00\x12,\n\x0bGetAllSongs\x12\x0b.demo.Empty\x1a\x0e.demo.SongList\"\x00\x12\x39\n\x10GetUserPlaylists\x12\x0f.demo.IdRequest\x1a\x12.demo.PlaylistList\"\x00\x12\x35\n\x10GetPlaylistSongs\x12\x0f.demo.IdRequest\x1a\x0e.demo.SongList\"\x00\x12;\n\x12GetPlaylistsBySong\x12\x0f.demo.IdRequest\x1a\x12.demo.PlaylistList\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'demo_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_USERREQUEST']._serialized_start=20
-  _globals['_USERREQUEST']._serialized_end=45
-  _globals['_SONG']._serialized_start=47
-  _globals['_SONG']._serialized_end=84
-  _globals['_PLAYLIST']._serialized_start=86
-  _globals['_PLAYLIST']._serialized_end=150
-  _globals['_USERRESPONSE']._serialized_start=152
-  _globals['_USERRESPONSE']._serialized_end=242
-  _globals['_USERSERVICE']._serialized_start=244
-  _globals['_USERSERVICE']._serialized_end=309
+  _globals['_EMPTY']._serialized_start=20
+  _globals['_EMPTY']._serialized_end=27
+  _globals['_IDREQUEST']._serialized_start=29
+  _globals['_IDREQUEST']._serialized_end=52
+  _globals['_SONG']._serialized_start=54
+  _globals['_SONG']._serialized_end=103
+  _globals['_PLAYLIST']._serialized_start=105
+  _globals['_PLAYLIST']._serialized_end=168
+  _globals['_USERRESPONSE']._serialized_start=170
+  _globals['_USERRESPONSE']._serialized_end=258
+  _globals['_SONGLIST']._serialized_start=260
+  _globals['_SONGLIST']._serialized_end=297
+  _globals['_PLAYLISTLIST']._serialized_start=299
+  _globals['_PLAYLISTLIST']._serialized_end=348
+  _globals['_USERLIST']._serialized_start=350
+  _globals['_USERLIST']._serialized_end=395
+  _globals['_USERSERVICE']._serialized_start=398
+  _globals['_USERSERVICE']._serialized_end=678
 # @@protoc_insertion_point(module_scope)

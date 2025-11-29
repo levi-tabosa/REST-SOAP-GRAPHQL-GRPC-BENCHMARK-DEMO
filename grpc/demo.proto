@@ -2,27 +2,35 @@ syntax = "proto3";
 package demo;
 
 service UserService {
-  rpc GetUser (UserRequest) returns (UserResponse) {}
+  rpc GetAllUsers (Empty) returns (UserList) {}
+  rpc GetAllSongs (Empty) returns (SongList) {}
+  rpc GetUserPlaylists (IdRequest) returns (PlaylistList) {}
+  rpc GetPlaylistSongs (IdRequest) returns (SongList) {}
+  rpc GetPlaylistsBySong (IdRequest) returns (PlaylistList) {}
 }
 
-message UserRequest {
-  int32 id = 1;
-}
+message Empty {}
+message IdRequest { int32 id = 1; }
 
 message Song {
-    string title = 1;
-    string artist = 2;
+    int32 id = 1;
+    string title = 2;
+    string artist = 3;
 }
 
 message Playlist {
     int32 id = 1;
-    string title = 2;
-    repeated Song songs = 3; // TODO: testar sem essa linha
+    string name = 2;
+    repeated Song songs = 3;
 }
 
 message UserResponse {
-  int32 id = 1;
-  string name = 2;
-  string email = 3;
-  repeated Playlist playlists = 4; // TODO: testar sem essa linha
+    int32 id = 1;
+    string name = 2;
+    int32 age = 3;
+    repeated Playlist playlists = 4;
 }
+
+message SongList { repeated Song songs = 1; }
+message PlaylistList { repeated Playlist playlists = 1; }
+message UserList { repeated UserResponse users = 1; }

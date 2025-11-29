@@ -1,60 +1,96 @@
-
 import grpc
 from concurrent import futures
 import demo_pb2
 import demo_pb2_grpc
 import os
 from sqlalchemy import create_engine, text
+from grpc_health.v1 import health, health_pb2, health_pb2_grpc
 
 class UserService(demo_pb2_grpc.UserServiceServicer):
     def __init__(self):
-        DB_URL = f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PASS')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-        self.engine = create_engine(DB_URL)
+        try:
+            DB_URL = f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PASS')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+            self.engine = create_engine(DB_URL)
+        except Exception as e:
+            print(f"Failed to connect to DB: {e}")
 
-    def GetUser(self, request, context):
+    def GetAllUsers(self, request, context):
         with self.engine.connect() as conn:
-            # 1. Get User
-            user_row = conn.execute(
-                text("SELECT id, name, email FROM users WHERE id = :id"), 
-                {"id": request.id}
-            ).fetchone()
-            
-            if not user_row:
-                context.set_code(grpc.StatusCode.NOT_FOUND)
-                return demo_pb2.UserResponse()
+            users = conn.execute(text("SELECT id, name, age FROM users")).fetchall()
+            response = []
+            for u in users:
+                response.append(demo_pb2.UserResponse(id=u[0], name=u[1], age=u[2]))
+            return demo_pb2.UserList(users=response)
 
-            # 2. Get Playlists
-            playlists_rows = conn.execute(
-                text("SELECT id, title FROM playlists WHERE user_id = :uid"),
-                {"uid": request.id}
-            ).fetchall()
+    def GetAllSongs(self, request, context):
+        with self.engine.connect() as conn:
+            songs = conn.execute(text("SELECT id, title, artist FROM songs")).fetchall()
+            return demo_pb2.SongList(songs=[
+                demo_pb2.Song(id=s[0], title=s[1], artist=s[2]) for s in songs
+            ])
 
-            pb_playlists = []
-            for p_row in playlists_rows:
-                # 3. Get Songs for Playlist
-                songs_rows = conn.execute(
-                    text("SELECT title, artist FROM songs WHERE playlist_id = :pid"),
-                    {"pid": p_row[0]}
-                ).fetchall()
+    def GetUserPlaylists(self, request, context):
+        with self.engine.connect() as conn:
+            playlists = conn.execute(text("SELECT id, name FROM playlists WHERE user_id = :uid"), {"uid": request.id}).fetchall()
+            pl_protos = []
+            for p in playlists:
+                songs = conn.execute(text("""
+                    SELECT s.id, s.title, s.artist 
+                    FROM songs s 
+                    JOIN playlist_songs ps ON s.id = ps.song_id 
+                    WHERE ps.playlist_id = :pid
+                """), {"pid": p[0]}).fetchall()
                 
-                pb_songs = [demo_pb2.Song(title=s[0], artist=s[1]) for s in songs_rows]
-                pb_playlists.append(demo_pb2.Playlist(id=p_row[0], title=p_row[1], songs=pb_songs))
+                s_protos = [demo_pb2.Song(id=s[0], title=s[1], artist=s[2]) for s in songs]
+                pl_protos.append(demo_pb2.Playlist(id=p[0], name=p[1], songs=s_protos))
+            return demo_pb2.PlaylistList(playlists=pl_protos)
 
-            return demo_pb2.UserResponse(
-                id=user_row[0], 
-                name=user_row[1], 
-                email=user_row[2], 
-                playlists=pb_playlists
-            )
+    def GetPlaylistSongs(self, request, context):
+        with self.engine.connect() as conn:
+            songs = conn.execute(text("""
+                SELECT s.id, s.title, s.artist 
+                FROM songs s 
+                JOIN playlist_songs ps ON s.id = ps.song_id 
+                WHERE ps.playlist_id = :pid
+            """), {"pid": request.id}).fetchall()
+            return demo_pb2.SongList(songs=[
+                demo_pb2.Song(id=s[0], title=s[1], artist=s[2]) for s in songs
+            ])
 
+    def GetPlaylistsBySong(self, request, context):
+        with self.engine.connect() as conn:
+            playlists = conn.execute(text("""
+                SELECT p.id, p.name 
+                FROM playlists p 
+                JOIN playlist_songs ps ON p.id = ps.playlist_id 
+                WHERE ps.song_id = :sid
+            """), {"sid": request.id}).fetchall()
+            
+            pl_protos = []
+            for p in playlists:
+                songs = conn.execute(text("""
+                    SELECT s.id, s.title, s.artist 
+                    FROM songs s 
+                    JOIN playlist_songs ps ON s.id = ps.song_id 
+                    WHERE ps.playlist_id = :pid
+                """), {"pid": p[0]}).fetchall()
+                s_protos = [demo_pb2.Song(id=s[0], title=s[1], artist=s[2]) for s in songs]
+                pl_protos.append(demo_pb2.Playlist(id=p[0], name=p[1], songs=s_protos))
+            return demo_pb2.PlaylistList(playlists=pl_protos)
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    
+    health_servicer = health.HealthServicer()
+    health_servicer.set("", health_pb2.HealthCheckResponse.SERVING)
+    health_pb2_grpc.add_HealthServicer_to_server(health_servicer, server)
+    
     demo_pb2_grpc.add_UserServiceServicer_to_server(UserService(), server)
-    server.add_insecure_port('[::]:50051')
+    
+    server.add_insecure_port("[::]:50051")
     print("Server started on port 50051")
+    
     server.start()
     server.wait_for_termination()
 
-if __name__ == '__main__':
-    serve()
+if __name__ == '__main__': serve()
