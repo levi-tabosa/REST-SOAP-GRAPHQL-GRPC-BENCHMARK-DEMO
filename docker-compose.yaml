@@ -13,7 +13,6 @@ services:
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - pgdata:/var/lib/postgresql/data
-    profiles: ["db"]
     networks:
       - app-network
 
@@ -97,7 +96,6 @@ services:
       -f load_test.py
     ports:
       - "8089:8089"
-    profiles: ["loadtest"]
     networks:
       - app-network
 
