@@ -184,30 +184,30 @@ python testes-locust/graficos_locust.py
   ![Gráfico de Latência Média](testes-locust/outputs/comparativo_latencia_media.png)
 
 - **Latência P95**  
-  `graficos/latencia_p95_por_tech_carga.png`
+  ![Gráfico de Latência P95](testes-locust/outputs/comparativo_latencia_p95.png)
 
 - **Requests por segundo (RPS)**  
-  `graficos/rps_por_tech_carga.png`
+  ![Gráfico dos Requests por segundo](testes-locust/outputs/comparativo_rps.png)
 
 #### REST
-- `graficos/rest_latencia.png`  
-- `graficos/rest_p95.png`  
-- `graficos/rest_rps.png`
+![](testes-locust/outputs/rest_latencia_media.png)
+![](testes-locust/outputs/rest_latencia_p95.png)
+![](testes-locust/outputs/rest_rps.png)
 
 #### SOAP
-- `graficos/soap_latencia.png`  
-- `graficos/soap_p95.png`  
-- `graficos/soap_rps.png`
+![](testes-locust/outputs/soap_latencia_media.png)
+![](testes-locust/outputs/soap_latencia_p95.png) 
+![](testes-locust/outputs/soap_rps.png)
 
 #### GraphQL
-- `graficos/graphql_latencia.png`  
-- `graficos/graphql_p95.png`  
-- `graficos/graphql_rps.png`
+![](testes-locust/outputs/graphql_latencia_media.png)
+![](testes-locust/outputs/graphql_latencia_p95.png) 
+![](testes-locust/outputs/graphql_rps.png)
 
 #### gRPC
-- `graficos/grpc_latencia.png`  
-- `graficos/grpc_p95.png`  
-- `graficos/grpc_rps.png`
+![](testes-locust/outputs/grpc_latencia_media.png)
+![](testes-locust/outputs/grpc_latencia_p95.png) 
+![](testes-locust/outputs/grpc_rps.png)
 
 ---
 
