@@ -118,10 +118,10 @@ O projeto foi dividido em duas linguagens de programação para demonstrar inter
 
 ## Escopo do Projeto
 
-[cite_start]O sistema simula um serviço de streaming de músicas que gerencia três recursos principais[cite: 20]:
-1.  [cite_start]**Usuários** (ID, Nome, Idade) [cite: 22-24]
-2.  [cite_start]**Músicas** (ID, Nome, Artista) [cite: 30-32]
-3.  [cite_start]**Playlists** (ID, Nome) [cite: 35-36]
+O sistema simula um serviço de streaming de músicas que gerencia três recursos principais[cite: 20]:
+1.  **Usuários** (ID, Nome, Idade)
+2.  **Músicas** (ID, Nome, Artista)
+3.  **Playlists** (ID, Nome)
 
 ### Funcionalidades Implementadas
 As quatro tecnologias implementam exatamente o mesmo conjunto de operações:
@@ -134,6 +134,7 @@ As quatro tecnologias implementam exatamente o mesmo conjunto de operações:
 
 Os serviços compartilham a mesma base de dados (PostgreSQL), garantindo paridade de comportamento entre todas as implementações.
 
+---
 
 ## 4. Como executar
 
@@ -157,6 +158,7 @@ docker compose --profile graphql up --build
 docker compose --profile grpc up --build
 ```
 
+---
 
 ## 5. Testes de carga com Locust
 
@@ -174,10 +176,12 @@ Para processar os resultados e gerar gráficos:
 python testes-locust/graficos_locust.py
 ```
 
+---
+
 ## 6. Gráficos comparativos gerais
 
 - **Latência média**  
-  `graficos/latencia_media_por_tech_carga.png`
+  ![Gráfico de Latência Média](testes-locust\outputs\latencia_media_por_tech_carga.png)
 
 - **Latência P95**  
   `graficos/latencia_p95_por_tech_carga.png`
