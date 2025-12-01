@@ -136,7 +136,7 @@ Os serviços compartilham a mesma base de dados (PostgreSQL), garantindo paridad
 
 ---
 
-## 4. Como executar
+# 4. Como executar
 
 ### REST
 ```bash
@@ -160,7 +160,7 @@ docker compose --profile grpc up --build
 
 ---
 
-## 5. Testes de carga com Locust
+# 5. Testes de carga com Locust
 
 Os testes seguem esse padrão:
 
@@ -178,7 +178,7 @@ python testes-locust/graficos_locust.py
 
 ---
 
-## 6. Gráficos comparativos gerais
+# 6. Gráficos comparativos gerais
 
 - **Latência média**  
   ![Gráfico de Latência Média](testes-locust/outputs/comparativo_latencia_media.png)
@@ -211,7 +211,7 @@ python testes-locust/graficos_locust.py
 
 ---
 
-## 7. Análise dos resultados
+# 7. Análise dos resultados
 
 ### 7.1. Latência média
 - gRPC apresenta o menor tempo médio em todas as cargas.  
@@ -232,7 +232,7 @@ python testes-locust/graficos_locust.py
 
 ---
 
-## 8. Conclusão
+# 8. Conclusão
 
 Resumo da performance observada:
 
