@@ -181,7 +181,7 @@ python testes-locust/graficos_locust.py
 ## 6. Gráficos comparativos gerais
 
 - **Latência média**  
-  ![Gráfico de Latência Média](testes-locust\outputs\latencia_media_por_tech_carga.png)
+  ![Gráfico de Latência Média](testes-locust/outputs/comparativo_latencia_media.png)
 
 - **Latência P95**  
   `graficos/latencia_p95_por_tech_carga.png`
